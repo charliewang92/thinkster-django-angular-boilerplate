@@ -19,7 +19,7 @@
 		}
 		
 		function register() {
-			Authentication.register(vm.email, em.password, vm.username);
+			Authentication.register(vm.email, vm.password, vm.username);
 		}
 	}
 })();

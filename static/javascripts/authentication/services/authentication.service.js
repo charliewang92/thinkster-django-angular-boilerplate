@@ -13,6 +13,7 @@
 			getAuthenticatedAccount: getAuthenticatedAccount,
 			isAuthenticated: isAuthenticated,
 			login: login,
+			logout: logout, 
 			register: register,
 			setAuthenticatedAccount: setAuthenticatedAccount,
 			unauthenticate, unauthenticate
@@ -49,9 +50,23 @@
 			}
 		}
 
+		//will logout, if successful, will unauthenticate the user, then send to index
+		function logout() {
+			return $http.post('api/v1/auth/logout/').then(logoutSuccessFn, logoutErrorFn);
+
+			function logoutSuccessFn(data, status, headers, config) {
+				Authentication.unauthenticate();
+
+				window.location ='/';
+			}
+
+			function logoutErrorFn(data, status, headers, config) {
+				console.log('Log failed');
+			}
+		}
 		//The thens are promises
 		function register(email, password, username) {
-			return $http.post('/api/v1/accounts', {
+			return $http.post('/api/v1/accounts/', {
 				username: username,
 				password: password,
 				email: email

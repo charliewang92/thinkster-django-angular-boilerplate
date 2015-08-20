@@ -1,5 +1,5 @@
 import json
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from rest_framework import viewsets, permissions, status, views
 from rest_framework.response import Response
 from authentication.models import Account
@@ -9,6 +9,7 @@ from authentication.permissions import IsAccountOwner
 #we want to use viewsets, these are used for handling the creation of API endpoints
 
 class AccountViewSet(viewsets.ModelViewSet):
+    print 'herein'
     lookup_field = 'username'
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
@@ -25,6 +26,7 @@ class AccountViewSet(viewsets.ModelViewSet):
         return (permission.IsAuthenticated(), IsAccountOwner(),)
 
     def create(self, request):
+        print 'herecreate'
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
@@ -64,3 +66,11 @@ class LoginView(views.APIView):
                 'status': 'Unauthorized',
                 'message': 'Username/Password not valid together'
             	}, status=status.HTTP_401_UNAUTHORIZED)
+
+class LogoutView(views.APIView):
+    permissions = (permissions.IsAuthenticated,)
+    
+    def post(self, request, format=None):
+        logout(request)
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT) 
