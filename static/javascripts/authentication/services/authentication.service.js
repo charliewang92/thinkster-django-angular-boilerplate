@@ -21,15 +21,15 @@
 		return Authentication;
 
 		function getAuthenticatedAccount() {
-			if (!$cookies.authenticatedAccount) {
-				return;
-			}
-
-			return JSON.parse($cookies.authenciatedAccount);
+		  if (!$cookies.authenticatedAccount) {
+		  	alert('not auth');
+		    return;
+		  }
+		  return JSON.parse($cookies.authenticatedAccount);
 		}
 
 		function isAuthenticated() {
-			return !!$cookies.authenciatedAccount;
+			return !!$cookies.authenticatedAccount;
 		}
 
 
@@ -58,6 +58,7 @@
 				Authentication.unauthenticate();
 
 				window.location ='/';
+				alert('loged out')
 			}
 
 			function logoutErrorFn(data, status, headers, config) {
@@ -82,7 +83,9 @@
 		}
 
 		function setAuthenticatedAccount(account) {
-			$cookies.authenciatedAccount = JSON.stringify(account);
+			$cookies.authenticatedAccount = JSON.stringify(account);
+			alert($cookies.authenticatedAccount);
+			alert('now auth');
 		}
 
 		function unauthenticate() {
